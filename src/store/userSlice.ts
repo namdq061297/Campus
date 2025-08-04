@@ -30,7 +30,7 @@ export const { login, logout, setSession } = userSlice.actions;
 export const selectIsLoggedIn = (state: RootState) => state.user.isLoggedIn;
 
 export const setSessionFromStorage = () => async function (dispatch: AppDispatch) {
-    const json = await AsyncStorage.getItem('session');
+    const json = await AsyncStorage.getItem('accessToken');
     if (json) {
         dispatch(setSession(JSON.parse(json)));
     }

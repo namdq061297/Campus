@@ -1,11 +1,11 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text } from 'react-native';
-import AppButton from '../components/AppButton';
-import AppHeader from '../components/AppHeader';
-import ScreenWrapper from '../components/ScreenWrapper';
-import { useAlert } from '../components/AlertContext';
-import { useLoading } from '../components/LoadingContext';
+import ScreenWrapper from '../../../components/ScreenWrapper';
+import AppHeader from '../../../components/AppHeader';
+import AppButton from '../../../components/AppButton';
+import { useLoading } from '../../../components/LoadingContext';
+// import { useAlert } from '../components/AlertContext';
 
 const HomeScreen = () => {
   const { t } = useTranslation();
@@ -15,7 +15,7 @@ const HomeScreen = () => {
   //   const nextLang = i18n.language === 'en' ? 'vi' : 'en';
   //   i18n.changeLanguage(nextLang);
   // };
-  const { showAlert } = useAlert();
+  // const { showAlert } = useAlert();
 
    const onPressAlert = () => {
     // showAlert({
@@ -29,7 +29,7 @@ const HomeScreen = () => {
   };
 
   return (
-    <ScreenWrapper scroll>
+    <ScreenWrapper>
       <AppHeader
         title="Home"
         showBack

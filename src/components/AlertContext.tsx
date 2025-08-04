@@ -23,6 +23,8 @@ const AlertContext = createContext<AlertContextType>({
   showAlert: () => { },
 });
 
+export let showAlertGlobal: AlertContextType['showAlert'] = () => {};
+
 export const AlertProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [visible, setVisible] = useState(false);
   const [title, setTitle] = useState('');
@@ -44,6 +46,8 @@ export const AlertProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     },
     []
   );
+
+  showAlertGlobal = showAlert; // <-- Gán ra global
 
 
   const handleClose = () => {

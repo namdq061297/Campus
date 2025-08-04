@@ -3,13 +3,13 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useDispatch, useSelector } from 'react-redux';
 
-import HomeScreen from '../screens/HomeScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import SettingsScreen from '../screens/auth/setting/SettingsScreen';
 import { selectIsLoggedIn, setSessionFromStorage } from '../store/userSlice';
 import Loading from '../components/Loading';
 import { AppDispatch } from '../store';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LoginScreen from '../screens/un-auth/Login/LoginScreen';
+import HomeScreen from '../screens/auth/home/HomeScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -58,7 +58,5 @@ export default function AppNavigator() {
         }}
       />
     </Tab.Navigator>
-
-
   );
 }
