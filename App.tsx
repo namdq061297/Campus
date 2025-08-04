@@ -1,28 +1,33 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { I18nextProvider } from 'react-i18next';
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
+import { store, persistor } from './src/store';
+import i18n from './src/i18n';
+import AppNavigator from './src/navigation/AppNavigator';
+import { AlertProvider } from './src/components/AlertContext';
+import Loading from './src/components/Loading';
+import { Provider as PaperProvider } from 'react-native-paper';
+import { LoadingProvider } from './src/components/LoadingContext';
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
-
+export default function App() {
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <NewAppScreen templateFileName="App.tsx" />
-    </View>
+    <PaperProvider>
+      <LoadingProvider>
+        <Provider store={store}>
+          <PersistGate loading={<Loading />} persistor={persistor}>
+            <I18nextProvider i18n={i18n}>
+              <AlertProvider>
+                <NavigationContainer>
+                  <AppNavigator />
+                </NavigationContainer>
+              </AlertProvider>
+            </I18nextProvider>
+          </PersistGate>
+        </Provider>
+      </LoadingProvider>
+    </PaperProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
-
-export default App;
