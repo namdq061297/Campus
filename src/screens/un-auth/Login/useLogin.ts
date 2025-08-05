@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useAlert } from '../../../components/AlertContext';
 // import { loginApi } from '../../../api/client';
 // import { login } from '../../../store/userSlice';
 import { useForm } from 'react-hook-form';
-import userSlice, { login } from '../../../store/userSlice';
+import { useAlert } from 'components/AlertContext';
+import { login } from 'store/userSlice';
 
 const useLogin = () => {
   const {

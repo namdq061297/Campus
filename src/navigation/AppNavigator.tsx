@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useDispatch, useSelector } from 'react-redux';
-
-import SettingsScreen from '../screens/auth/setting/SettingsScreen';
 import { selectIsLoggedIn, setSessionFromStorage } from '../store/userSlice';
-import Loading from '../components/Loading';
 import { AppDispatch } from '../store';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import LoginScreen from '../screens/un-auth/Login/LoginScreen';
-import HomeScreen from '../screens/auth/home/HomeScreen';
+import HomeScreen from 'screens/auth/home/HomeScreen';
+import LoginScreen from 'screens/un-auth/Login/LoginScreen';
+import SettingsScreen from 'screens/auth/setting/SettingsScreen';
+import Loading from 'components/Loading';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();

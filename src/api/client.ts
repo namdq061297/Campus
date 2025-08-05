@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { showAlertGlobal } from 'components/AlertContext';
 import { Alert } from 'react-native';
-import { showAlertGlobal } from '../components/AlertContext';
 
 const client = axios.create({
   baseURL: 'https://your-api.com/api',

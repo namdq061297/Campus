@@ -1,9 +1,9 @@
 import React from 'react';
 import { Text, Button, ActivityIndicator } from 'react-native';
-import ScreenWrapper from '../../../components/ScreenWrapper';
-import useLogin from './useLogin';
-import FormInput from '../../../components/FormInput';
 import { Controller } from 'react-hook-form';
+import useLogin from './useLogin';
+import ScreenWrapper from 'components/ScreenWrapper';
+import FormInput from 'components/FormInput';
 
 const LoginScreen = () => {
   const {
