@@ -6,11 +6,13 @@ import ScreenWrapper from 'components/ScreenWrapper';
 import AppHeader from 'components/AppHeader';
 import AppButton from 'components/AppButton';
 import { useLoading } from 'components/LoadingContext';
-// import { useAlert } from '../components/AlertContext';
+// import { useAlert } from '../components/AlertContext';ç
+import Config from 'react-native-config';
 
 const HomeScreen = () => {
   const { t } = useTranslation();
   const { showLoading, hideLoading } = useLoading();
+  console.warn(Config.API_URL, 'config');   // tương ứng
 
   // const toggleLang = () => {
   //   const nextLang = i18n.language === 'en' ? 'vi' : 'en';
