@@ -26,7 +26,7 @@ export default function AppNavigator() {
 
   if (checking) return <SplashScreen />;
 
-  if (!isLoggedIn) {
+  if (isLoggedIn) {
     return (
       <Stack.Navigator>
         <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />

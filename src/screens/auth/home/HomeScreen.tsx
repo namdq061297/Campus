@@ -12,7 +12,7 @@ import Config from 'react-native-config';
 const HomeScreen = () => {
   const { t } = useTranslation();
   const { showLoading, hideLoading } = useLoading();
-  console.warn(Config.API_URL, 'config');   // tương ứng
+  console.warn(Config.ENV, 'config');   // tương ứng
 
   // const toggleLang = () => {
   //   const nextLang = i18n.language === 'en' ? 'vi' : 'en';

@@ -14,7 +14,11 @@ if linkage != nil
   use_frameworks! :linkage => linkage.to_sym
 end
 
-target 'Campus' do
+abstract_target 'CampusCommonPods' do
+  target 'Campus' do
+  end
+  target 'CampusUAT' do
+  end
   config = use_native_modules!
   pod 'react-native-config', :path => '../node_modules/react-native-config'
 
