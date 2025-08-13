@@ -2,6 +2,14 @@ apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 
+project.ext.envConfigFiles = [
+    uatDebug: ".env.uat",
+    uatRelease: ".env.uat",
+    prodDebug: ".env.prod",
+    prodRelease: ".env.prod",
+]
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+
 /**
  * This is the configuration block to customize your React Native Android app.
  * By default you don't need to apply any configuration, just uncomment the lines you need.
@@ -76,30 +84,22 @@ android {
     ndkVersion rootProject.ext.ndkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
+    namespace "com.campus"
 
     flavorDimensions "default"
     productFlavors {
-        production {
-            minSdkVersion rootProject.ext.minSdkVersion
-            applicationId "com.campus"
-            targetSdkVersion rootProject.ext.targetSdkVersion
-            resValue "string", "build_config_package", "com.campus"
+        uat {
         }
-        development {
-            minSdkVersion rootProject.ext.minSdkVersion
-            applicationId "com.campus.uat"
-            targetSdkVersion rootProject.ext.targetSdkVersion
-            resValue "string", "build_config_package", "com.campus.uat"
+        prod {
         }
     }
-
-    namespace "com.campus"
     defaultConfig {
-        applicationId "com.campus"
+        applicationId project.env.get("BUNDLE_ID")
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        resValue "string", "build_config_package", "com.campus"
     }
     signingConfigs {
         debug {
@@ -112,7 +112,6 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
-            matchingFallbacks = ['debug', 'release']
         }
         release {
             // Caution! In production, you need to generate your own keystore file.
@@ -135,12 +134,4 @@ dependencies {
     }
 }
 
-project.ext.envConfigFiles = [
-   productiondebug: ".env.prod",
-   productionrelease: ".env.prod",
-   developmentrelease: ".env.uat",
-   developmentdebug: ".env.uat",
-]
-
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
-apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"

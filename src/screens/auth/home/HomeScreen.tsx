@@ -37,7 +37,7 @@ const HomeScreen = () => {
         showBack
       /> */}
       <Block padding={16}>
-        <Text>{Config.API_URL ?? 'null'}</Text>
+        <Text>{Config.APP_NAME ?? 'null'}</Text>
         <Text>{Config.ENV ?? 'null'}</Text>
         <Block height={16} />
         <AppButton icon="duplicate-outline" variant="primary" title={'alert'} onPress={onPressAlert} />
