@@ -1,18 +1,17 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
 import { Text } from 'react-native';
 import Block from 'components/Block';
 import ScreenWrapper from 'components/ScreenWrapper';
-import AppHeader from 'components/AppHeader';
+// import AppHeader from 'components/AppHeader';
 import AppButton from 'components/AppButton';
 import { useLoading } from 'components/LoadingContext';
 // import { useAlert } from '../components/AlertContext';ç
 import Config from 'react-native-config';
 
 const HomeScreen = () => {
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
   const { showLoading, hideLoading } = useLoading();
-  console.warn(Config.ENV, 'config');   // tương ứng
 
   // const toggleLang = () => {
   //   const nextLang = i18n.language === 'en' ? 'vi' : 'en';
@@ -33,14 +32,13 @@ const HomeScreen = () => {
 
   return (
     <ScreenWrapper>
-      <AppHeader
+      {/* <AppHeader
         title="Home"
         showBack
-      // rightIcon="settings-outline"
-      // onRightPress={() => navigation.navigate('Settings')}
-      />
+      /> */}
       <Block padding={16}>
-        <Text>{t('hello')}</Text>
+        <Text>{Config.API_URL ?? 'null'}</Text>
+        <Text>{Config.ENV ?? 'null'}</Text>
         <Block height={16} />
         <AppButton icon="duplicate-outline" variant="primary" title={'alert'} onPress={onPressAlert} />
       </Block>
