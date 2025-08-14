@@ -5,4 +5,5 @@ export const SCREEN_NAME = {
   FORGET_PASSWORD: 'ForgetPassword',
   HOME: 'Home',
   SETTINGS: 'Settings',
+  ADD_CLIENT: 'AddClient',
 } as const;

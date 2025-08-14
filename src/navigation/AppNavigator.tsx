@@ -19,6 +19,10 @@ import COLORS from 'theme/colors';
 // 👇 IMPORT TYPES
 import type { RootStackParamList, DrawerParamList } from './types';
 import { SCREEN_NAME } from './screen';
+import FastImage from 'react-native-fast-image';
+import IMAGES from 'assets/images';
+import AddClientScreen from 'screens/auth/client/AddClientScreen';
+import { useTranslation } from 'react-i18next';
 
 // 👇 GẮN GENERICS
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -45,12 +49,17 @@ function AuthStack() {
 }
 
 function AppDrawer() {
+  const { t } = useTranslation();
+  
   return (
     <Drawer.Navigator
       screenOptions={({ navigation }) => ({
         drawerType: 'back',
         drawerActiveTintColor: COLORS.green,
         drawerInactiveTintColor: COLORS.gray,
+        headerStyle: {height: 120},
+        headerRightContainerStyle: styles.headerSide,
+        headerRight: () => <FastImage resizeMode='contain' style={styles.logo} source={IMAGES.logo} />,
         headerLeft: () => (
           <Pressable
             onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
@@ -75,10 +84,10 @@ function AppDrawer() {
         }}
       />
       <Drawer.Screen
-        name={SCREEN_NAME.SETTINGS}
-        component={SettingsScreen}
+        name={SCREEN_NAME.ADD_CLIENT}
+        component={AddClientScreen}
         options={{
-          title: 'Settings',
+          title: t('add_client'),
           drawerIcon: ({ color, size }) => (
             <Ionicons name="settings-outline" size={size} color={color} />
           ),
@@ -102,7 +111,7 @@ export default function AppNavigator() {
   // nếu đăng nhập -> vào Drawer, chưa đăng nhập -> vào Login
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {isLoggedIn ? (
+      {!isLoggedIn ? (
         // 👇 AppDrawer là một screen trong RootStack (đúng kiểu)
         <Stack.Screen name={SCREEN_NAME.APP_DRAWER} component={AppDrawer} />
       ) : (
@@ -116,7 +125,7 @@ export default function AppNavigator() {
 
 const styles = StyleSheet.create({
   menuIcon: {
-    paddingHorizontal: 16,
+    // paddingHorizontal: 16,
     borderWidth: 1,
     borderColor: COLORS.green,
     borderRadius: 8,
@@ -125,4 +134,11 @@ const styles = StyleSheet.create({
   menuIconPressed: {
     opacity: 0.5,
   },
+  logo: {
+    width: 80,
+    height: 40
+  },
+  headerSide: {
+    paddingRight: 16
+  }
 });

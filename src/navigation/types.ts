@@ -10,5 +10,6 @@ export type RootStackParamList = {
 
 export type DrawerParamList = {
   Home: undefined;
+  AddClient: undefined;
   Settings: undefined;
 };
