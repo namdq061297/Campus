@@ -1,4 +1,9 @@
 {
-  "hello": "Hello",
-  "welcome": "Welcome"
+  "signin": "Sign In",
+  "username": "Username",
+  "password": "Password",
+  "back_login": "Back to login",
+  "submit": "Submit",
+  "forgot_pw": "I forgot my password",
+  "forgot_y_pw": "Forgot Your Password?",
 }

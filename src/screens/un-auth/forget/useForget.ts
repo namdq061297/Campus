@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 // import { loginApi } from '../../../api/client';
 // import { login } from '../../../store/userSlice';
@@ -7,10 +7,8 @@ import { useForm } from 'react-hook-form';
 import { useAlert } from 'components/AlertContext';
 import { login } from 'store/userSlice';
 import { useLoading } from 'components/LoadingContext';
-import { navigate } from 'service/navigation-service';
-import { SCREEN_NAME } from 'navigation/screen';
 
-const useLogin = () => {
+const useForget = () => {
   const {
     control,
     handleSubmit,
@@ -18,18 +16,12 @@ const useLogin = () => {
   } = useForm({
     defaultValues: {
       username: '',
-      password: '',
     },
   });
   const dispatch = useDispatch();
   const { showAlert } = useAlert();
   const { showLoading, hideLoading } = useLoading();
 
-  const goToFP = useCallback(() => {
-    navigate(SCREEN_NAME.FORGET_PASSWORD)
-  }, []);
-
-  const [loading, setLoading] = useState(false);
 
   const onSubmit = (data: any) => {
      dispatch(login(data));
@@ -37,14 +29,12 @@ const useLogin = () => {
   };
 
   return {
-    loading,
     onSubmit,
     handleSubmit,
     control,
     errors,
-    isSubmitted,
-    goToFP
+    isSubmitted
   };
 };
 
-export default useLogin;
+export default useForget;

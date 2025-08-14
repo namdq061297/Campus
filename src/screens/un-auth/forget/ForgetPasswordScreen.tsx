@@ -1,6 +1,5 @@
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import useLogin from './useLogin';
 import ScreenWrapper from 'components/ScreenWrapper';
 import FormInput from 'components/FormInput';
 import AppButton from 'components/AppButton';
@@ -9,25 +8,26 @@ import AppText from 'components/AppText';
 import Block from 'components/Block';
 import FastImage from 'react-native-fast-image';
 import IMAGES from 'assets/images';
-import { useStyleLogin } from './styles';
 import COLORS from 'theme/colors';
 import LinkButton from 'components/AppButtonLink';
+import useForget from './useForget';
+import { useStyleLogin } from '../login/styles';
+import { goBack } from 'service/navigation-service';
 
-const LoginScreen = () => {
+const ForgetPasswordScreen = () => {
   const {
     control,
     handleSubmit,
     isSubmitted,
     onSubmit,
-    goToFP,
-  } = useLogin();
+  } = useForget();
   const { t } = useTranslation();
   const style = useStyleLogin();
   return (
     <ScreenWrapper backgroundColor={COLORS.background} scroll>
       <Block backgroundColor={COLORS.background} padding={16} flex={1} alignContent='center'>
         <FastImage style={style.logo} resizeMode="contain" source={IMAGES.logo} />
-        <AppText fontWeight={'600'} textAlign='center' fontSize={32}>{t('signin')}</AppText>
+        <AppText fontWeight={'600'} textAlign='center' fontSize={32}>{t('forgot_y_pw')}</AppText>
         <Block height={32} />
         <Controller
           control={control}
@@ -44,32 +44,14 @@ const LoginScreen = () => {
             />
           )}
         />
-
-        <Controller
-          control={control}
-          name="password"
-          rules={{ required: 'Password is required', minLength: { value: 6, message: 'Min 6 characters' } }}
-          render={({ field: { onChange, value }, fieldState }) => (
-            <FormInput
-              label={t('password')}
-              value={value}
-              onChangeText={onChange}
-              errorMessage={fieldState.error?.message}
-              showError={fieldState.invalid && (fieldState.isTouched || isSubmitted)}
-              secureTextEntry
-              showPasswordToggle
-              leftIcon="lock-open-outline"
-            />
-          )}
-        />
-        <LinkButton containerStyle={style.buttonFP} onPress={goToFP}>
-          {t('forgot_pw')}
+        <LinkButton containerStyle={style.buttonFP} onPress={goBack}>
+          {t('back_login')}
         </LinkButton>
         <Block height={32} />
-        <AppButton title={t('signin')} onPress={handleSubmit(onSubmit)} />
+        <AppButton title={t('submit')} onPress={handleSubmit(onSubmit)} />
       </Block>
     </ScreenWrapper>
   );
 };
 
-export default React.memo(LoginScreen);
+export default React.memo(ForgetPasswordScreen);

@@ -7,7 +7,7 @@ import { selectIsLoggedIn, setSessionFromStorage } from '../store/userSlice';
 import { AppDispatch } from '../store';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeScreen from 'screens/auth/home/HomeScreen';
-import LoginScreen from 'screens/un-auth/Login/LoginScreen';
+import LoginScreen from 'screens/un-auth/login/LoginScreen';
 import SettingsScreen from 'screens/auth/setting/SettingsScreen';
 import Loading from 'components/Loading';
 

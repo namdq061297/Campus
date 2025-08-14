@@ -8,15 +8,21 @@ import { AppDispatch } from '../store';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import HomeScreen from 'screens/auth/home/HomeScreen';
-import LoginScreen from 'screens/un-auth/Login/LoginScreen';
+import LoginScreen from 'screens/un-auth/login/LoginScreen';
+import ForgetPasswordScreen from 'screens/un-auth/forget/ForgetPasswordScreen';
 import SettingsScreen from 'screens/auth/setting/SettingsScreen';
 import Loading from 'components/Loading';
 import { Pressable, StyleSheet } from 'react-native';
 import { DrawerActions } from '@react-navigation/native';
 import COLORS from 'theme/colors';
 
-const Stack = createNativeStackNavigator();
-const Drawer = createDrawerNavigator();
+// 👇 IMPORT TYPES
+import type { RootStackParamList, DrawerParamList } from './types';
+import { SCREEN_NAME } from './screen';
+
+// 👇 GẮN GENERICS
+const Stack = createNativeStackNavigator<RootStackParamList>();
+const Drawer = createDrawerNavigator<DrawerParamList>();
 
 const SplashScreen = () => <Loading message="Checking session..." />;
 
@@ -25,8 +31,13 @@ function AuthStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen
-        name="Login"
+        name={SCREEN_NAME.SIGN_IN}
         component={LoginScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name={SCREEN_NAME.FORGET_PASSWORD}
+        component={ForgetPasswordScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
@@ -34,15 +45,6 @@ function AuthStack() {
 }
 
 function AppDrawer() {
-  const styles = StyleSheet.create({
-    menuButton: {
-      paddingHorizontal: 16,
-    },
-    menuIcon: {
-      borderWidth: 1, borderColor: COLORS.green, borderRadius: 8, marginHorizontal: 10
-    },
-  });
-
   return (
     <Drawer.Navigator
       screenOptions={({ navigation }) => ({
@@ -52,22 +54,18 @@ function AppDrawer() {
         headerLeft: () => (
           <Pressable
             onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
-            style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1, ...styles.menuIcon })}
+            style={({ pressed }) => [styles.menuIcon, pressed && styles.menuIconPressed]}
             hitSlop={10}
             accessibilityRole="button"
             accessibilityLabel="Open menu"
           >
-            {/* Dùng Ionicons */}
             <Ionicons color={COLORS.green} name="reorder-three-outline" size={28} />
-            {/* Hoặc dùng ảnh tùy biến:
-            <Image source={require('../assets/hamburger.png')} style={{ width: 24, height: 24 }} />
-            */}
           </Pressable>
         ),
       })}
     >
       <Drawer.Screen
-        name="Home"
+        name={SCREEN_NAME.HOME}
         component={HomeScreen}
         options={{
           title: 'Home',
@@ -77,7 +75,7 @@ function AppDrawer() {
         }}
       />
       <Drawer.Screen
-        name="Settings"
+        name={SCREEN_NAME.SETTINGS}
         component={SettingsScreen}
         options={{
           title: 'Settings',
@@ -102,5 +100,29 @@ export default function AppNavigator() {
   if (checking) return <SplashScreen />;
 
   // nếu đăng nhập -> vào Drawer, chưa đăng nhập -> vào Login
-  return !isLoggedIn ? <AppDrawer /> : <AuthStack />;
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {isLoggedIn ? (
+        // 👇 AppDrawer là một screen trong RootStack (đúng kiểu)
+        <Stack.Screen name={SCREEN_NAME.APP_DRAWER} component={AppDrawer} />
+      ) : (
+        <Stack.Screen name={SCREEN_NAME.SIGN_IN} component={AuthStack} />
+      )}
+      {/* Nếu muốn truy cập ForgetPassword từ cả 2 nhánh, có thể thêm nó ở đây nữa */}
+      {/* <Stack.Screen name={SCREEN_NAME.FORGET_PASSWORD} component={ForgetPasswordScreen} /> */}
+    </Stack.Navigator>
+  );
 }
+
+const styles = StyleSheet.create({
+  menuIcon: {
+    paddingHorizontal: 16,
+    borderWidth: 1,
+    borderColor: COLORS.green,
+    borderRadius: 8,
+    marginHorizontal: 10,
+  },
+  menuIconPressed: {
+    opacity: 0.5,
+  },
+});

@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, ViewStyle } from 'react-native';
 import { Button, useTheme } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import COLORS from 'theme/colors';
 
 type AppButtonProps = {
   title: string;
@@ -9,7 +10,7 @@ type AppButtonProps = {
   loading?: boolean;
   disabled?: boolean;
   icon?: string;
-  variant?: 'primary' | 'secondary';
+  variant?: 'primary' | 'secondary' | 'text';
   fullWidth?: boolean;
   uppercase?: boolean;
   style?: ViewStyle;
@@ -34,7 +35,7 @@ const AppButton: React.FC<AppButtonProps> = ({
   const isPrimary = variant === 'primary';
 
   const backgroundColor = isPrimary
-    ? theme.colors.primary
+    ? COLORS.green
     : theme.colors.surface;
 
   const textColor = isPrimary
@@ -70,6 +71,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 16,
+    fontWeight: '600'
   },
   disable: {
     opacity: 0.7,

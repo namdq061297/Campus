@@ -4,6 +4,7 @@ import { TextInput, HelperText } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import type { TextInputProps } from 'react-native-paper';
+import COLORS from 'theme/colors';
 
 interface FormInputProps extends Omit<TextInputProps, 'label'> {
   label: string;
@@ -51,6 +52,7 @@ const FormInput: React.FC<FormInputProps> = ({
         value={value}
         onChangeText={onChangeText}
         error={!!errorMessage && showError}
+        activeOutlineColor={COLORS.green}
         secureTextEntry={hidePassword}
         left={
           leftIcon ? (
