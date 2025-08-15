@@ -63,7 +63,7 @@ export function onStateChange(_state?: NavigationState) {
 }
 
 /** Type tên route từ RootStackParamList */
-export type RouteName = keyof RootStackParamList & DrawerParamList;
+export type RouteName = keyof RootStackParamList | keyof DrawerParamList;
 
 /**
  * Kiểm tra route có tồn tại trong cây navigator hiện tại không.

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ViewStyle } from 'react-native';
 import { TextInput, HelperText } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -10,8 +10,10 @@ interface FormInputProps extends Omit<TextInputProps, 'label'> {
   label: string;
   errorMessage?: string;
   showError?: boolean;
-  leftIcon?: string;               // Tên icon Ionicons ở bên trái
-  showPasswordToggle?: boolean;   // Tự động toggle khi là password field
+  multiline?: boolean;
+  containerStyle?: ViewStyle;
+  leftIcon?: string; // Tên icon Ionicons ở bên trái
+  showPasswordToggle?: boolean; // Tự động toggle khi là password field
 }
 
 const FormInput: React.FC<FormInputProps> = ({
@@ -23,6 +25,8 @@ const FormInput: React.FC<FormInputProps> = ({
   leftIcon,
   showPasswordToggle = false,
   secureTextEntry = false,
+  containerStyle,
+  multiline = false,
   ...rest
 }) => {
   const [hidePassword, setHidePassword] = useState(secureTextEntry);
@@ -45,15 +49,17 @@ const FormInput: React.FC<FormInputProps> = ({
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, containerStyle]}>
       <TextInput
-        mode="outlined"
+        mode='outlined'
         label={label}
         value={value}
         onChangeText={onChangeText}
         error={!!errorMessage && showError}
         activeOutlineColor={COLORS.green}
         secureTextEntry={hidePassword}
+        outlineStyle={[{ borderRadius: 12 }, multiline && styles.multiline]}
+        style={{ backgroundColor: COLORS.white }}
         left={
           leftIcon ? (
             <TextInput.Icon icon={() => <Ionicons name={leftIcon} size={20} />} />
@@ -62,9 +68,11 @@ const FormInput: React.FC<FormInputProps> = ({
         right={renderRightIcon()}
         {...rest}
       />
-      <HelperText type="error" visible={!!errorMessage && showError}>
-        {showError && errorMessage ? errorMessage : ' '}
-      </HelperText>
+      {showError && errorMessage ? (
+        <HelperText type='error'>
+          {errorMessage}
+        </HelperText>
+      ) : null}
     </View>
   );
 };
@@ -73,6 +81,9 @@ export default React.memo(FormInput);
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 12,
+    marginBottom: 16,
   },
+  multiline: {
+    height: 100
+  }
 });

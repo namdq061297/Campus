@@ -6,6 +6,7 @@ import {
   TextStyle,
   StyleProp,
 } from 'react-native'
+import TypographyStyles from 'theme/TypographyStyles'
 
 type AppTextProps = {
   children?: React.ReactNode

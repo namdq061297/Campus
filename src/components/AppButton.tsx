@@ -36,11 +36,11 @@ const AppButton: React.FC<AppButtonProps> = ({
 
   const backgroundColor = isPrimary
     ? COLORS.green
-    : theme.colors.surface;
+    : theme.colors.inverseOnSurface;
 
   const textColor = isPrimary
     ? theme.colors.onPrimary
-    : theme.colors.primary;
+    : theme.colors.inverseSurface;
 
   return (
     <Button
