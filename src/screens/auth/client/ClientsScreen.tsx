@@ -11,9 +11,10 @@ import { TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import COLORS from 'theme/colors';
 import FloatButtonAdd from 'components/FloatButtonAdd';
-import AppHeader from 'components/AppHeader';
+import { navigate } from 'service/navigation-service';
+import { SCREEN_NAME } from 'navigation/screen';
 
-const AddClientScreen = () => {
+const ClientsScreen = () => {
   const { t } = useTranslation();
   const { showLoading, hideLoading } = useLoading();
 
@@ -21,8 +22,9 @@ const AddClientScreen = () => {
 
   return (
     <ScreenWrapper>
-      <AppHeader title={t('add_client')} />
+      <Block padding={16}></Block>
+      <FloatButtonAdd onPress={() => navigate(SCREEN_NAME.ADD_CLIENT)} />
     </ScreenWrapper>
   );
 };
-export default React.memo(AddClientScreen);
+export default React.memo(ClientsScreen);

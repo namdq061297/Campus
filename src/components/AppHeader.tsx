@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
+import COLORS from 'theme/colors';
 
 type Props = {
   title: string;
@@ -73,15 +74,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 12,
-    backgroundColor: '#fff',
-    // Shadow for iOS
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.silver
+    // backgroundColor: '#fff',
+    // // Shadow for iOS
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowOpacity: 0.1,
+    // shadowRadius: 4,
 
-    // Shadow for Android
-    elevation: 4,
+    // // Shadow for Android
+    // elevation: 4,
   },
   side: {
     width: 40,

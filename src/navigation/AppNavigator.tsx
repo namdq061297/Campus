@@ -10,10 +10,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeScreen from 'screens/auth/home/HomeScreen';
 import LoginScreen from 'screens/un-auth/login/LoginScreen';
 import ForgetPasswordScreen from 'screens/un-auth/forget/ForgetPasswordScreen';
-import SettingsScreen from 'screens/auth/setting/SettingsScreen';
 import Loading from 'components/Loading';
 import { Pressable, StyleSheet } from 'react-native';
-import { DrawerActions } from '@react-navigation/native';
+import { DrawerActions, getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import COLORS from 'theme/colors';
 
 // 👇 IMPORT TYPES
@@ -21,11 +20,12 @@ import type { RootStackParamList, DrawerParamList } from './types';
 import { SCREEN_NAME } from './screen';
 import FastImage from 'react-native-fast-image';
 import IMAGES from 'assets/images';
-import AddClientScreen from 'screens/auth/client/AddClientScreen';
 import { useTranslation } from 'react-i18next';
+import ClientsScreen from 'screens/auth/client/ClientsScreen';
+import AddClientScreen from 'screens/auth/client/AddClientScreen';
 
 // 👇 GẮN GENERICS
-const Stack = createNativeStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator<RootStackParamList & DrawerParamList>();
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
 const SplashScreen = () => <Loading message="Checking session..." />;
@@ -48,16 +48,33 @@ function AuthStack() {
   );
 }
 
+function ClientStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen
+        name={SCREEN_NAME.CLIENTS}
+        component={ClientsScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name={SCREEN_NAME.ADD_CLIENT}
+        component={AddClientScreen}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 function AppDrawer() {
   const { t } = useTranslation();
-  
+
   return (
     <Drawer.Navigator
       screenOptions={({ navigation }) => ({
         drawerType: 'back',
         drawerActiveTintColor: COLORS.green,
         drawerInactiveTintColor: COLORS.gray,
-        headerStyle: {height: 120},
+        headerStyle: { height: 120 },
         headerRightContainerStyle: styles.headerSide,
         headerRight: () => <FastImage resizeMode='contain' style={styles.logo} source={IMAGES.logo} />,
         headerLeft: () => (
@@ -79,18 +96,27 @@ function AppDrawer() {
         options={{
           title: 'Home',
           drawerIcon: ({ color, size }) => (
-            <Ionicons name="home-outline" size={size} color={color} />
+            <Ionicons name="calendar-outline" size={size} color={color} />
           ),
         }}
       />
       <Drawer.Screen
-        name={SCREEN_NAME.ADD_CLIENT}
-        component={AddClientScreen}
-        options={{
-          title: t('add_client'),
-          drawerIcon: ({ color, size }) => (
-            <Ionicons name="settings-outline" size={size} color={color} />
-          ),
+        name={SCREEN_NAME.CLIENTS}
+        component={ClientStack}
+        options={({ navigation, route }) => {
+          const focused =
+            getFocusedRouteNameFromRoute(route) ?? SCREEN_NAME.CLIENTS;
+          const showDrawerHeader = focused === SCREEN_NAME.CLIENTS;
+
+          return {
+            title: t('clients'),
+            headerShown: showDrawerHeader,        // ✅ chỉ hiện ở Clients
+            headerStyle: { height: 120 },
+            headerRightContainerStyle: styles.headerSide,
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name="people-outline" size={size} color={color} />
+            ),
+          };
         }}
       />
     </Drawer.Navigator>

@@ -22,4 +22,6 @@
   "btn_save": "Save",
   "note": "Note",
   "placeholder_note": "Enter note",
+  "clients": "Clients",
+  "search_clients": "Search client",
 }

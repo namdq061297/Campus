@@ -9,6 +9,7 @@ import {
   StatusBar,
   StatusBarStyle,
 } from 'react-native';
+import COLORS from 'theme/colors';
 
 type ScreenWrapperProps = {
   children: React.ReactNode;
@@ -21,9 +22,9 @@ type ScreenWrapperProps = {
 const ScreenWrapper = ({
   children,
   scroll = false,
-  backgroundColor = '#fff',
+  backgroundColor = COLORS.white,
   contentContainerStyle = {},
-  statusBar = 'light-content',
+  statusBar = 'default',
   ...rest
 }: ScreenWrapperProps) => {
   const Container = scroll ? ScrollView : View;

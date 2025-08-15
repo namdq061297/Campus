@@ -7,7 +7,7 @@ import {
   type NavigationState,
   type PartialState,
 } from '@react-navigation/native';
-import { RootStackParamList } from 'navigation/types';
+import { DrawerParamList, RootStackParamList } from 'navigation/types';
 
 /**
  * Bật/tắt log điều hướng để debug.
@@ -63,7 +63,7 @@ export function onStateChange(_state?: NavigationState) {
 }
 
 /** Type tên route từ RootStackParamList */
-export type RouteName = keyof RootStackParamList;
+export type RouteName = keyof RootStackParamList & DrawerParamList;
 
 /**
  * Kiểm tra route có tồn tại trong cây navigator hiện tại không.
