@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 // import { loginApi } from '../../../api/client';
 // import { login } from '../../../store/userSlice';
@@ -11,6 +11,9 @@ import { navigate } from 'service/navigation-service';
 import { SCREEN_NAME } from 'navigation/screen';
 import { AddClientFormValues, addClientSchema } from 'validattion/addClient.schema';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { DateData } from 'react-native-calendars';
+import COLORS from 'theme/colors';
+import { BottomSheetRef } from 'components/BottomSheetModalize';
 
 const defaultValues: AddClientFormValues = {
   fullname: '',
@@ -34,6 +37,8 @@ const useClient = () => {
   const dispatch = useDispatch();
   const { showAlert } = useAlert();
   const { showLoading, hideLoading } = useLoading();
+  const [selected, setSelected] = useState('');
+  const sheetRef = useRef<BottomSheetRef>(null);
 
   const hasErrors = Object.keys(errors).length > 0;
 
@@ -47,6 +52,22 @@ const useClient = () => {
     console.warn('Form data:', data);
   };
 
+  const onDayPress = useCallback((day: DateData) => {
+    sheetRef?.current?.close()
+    setSelected(day.dateString)
+  }, []);
+
+  const marked = useMemo(() => {
+    return {
+      [selected]: {
+        selected: true,
+        disableTouchEvent: true,
+        selectedColor: COLORS.green,
+        selectedTextColor: COLORS.white
+      }
+    };
+  }, [selected]);
+
   return {
     loading,
     onSubmit,
@@ -55,7 +76,10 @@ const useClient = () => {
     errors,
     isSubmitted,
     goToFP,
-    hasErrors
+    onDayPress,
+    hasErrors,
+    marked,
+    sheetRef
   };
 };
 

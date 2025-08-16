@@ -11,12 +11,13 @@ import TypographyStyles from 'theme/TypographyStyles';
 import { Controller } from 'react-hook-form';
 import useClient from './useClient';
 import FormInput from 'components/FormInput';
-import BottomSheet, { BottomSheetHandle } from 'components/BottomSheet';
+import BottomSheet from 'components/BottomSheetModalize';
+import { Calendar } from 'react-native-calendars';
+import moment from 'moment';
 
 const AddClientScreen = () => {
   const { t } = useTranslation();
   const { showLoading, hideLoading } = useLoading();
-  const sheetRef = useRef<BottomSheetHandle>(null);
 
   const { showAlert } = useAlert();
   const {
@@ -25,12 +26,18 @@ const AddClientScreen = () => {
     isSubmitted,
     onSubmit,
     hasErrors,
+    onDayPress,
+    marked,
+    sheetRef
   } = useClient();
 
   const openSheet = useCallback(() => {
     sheetRef.current?.open()
     console.warn('sheetRef =', sheetRef.current);
   }, [])
+
+  console.warn(moment().format('YYYY/MM/DD'));
+
 
   return (
     <ScreenWrapper scroll>
@@ -96,8 +103,7 @@ const AddClientScreen = () => {
                 maxLength={100}
                 editable={false}
                 onChangeText={onChange}
-                onPressIn={() => sheetRef.current?.open()}
-                onPressOut={() => sheetRef.current?.open()}
+                onPressIn={openSheet}
                 errorMessage={fieldState.error?.message}
                 showError={fieldState.invalid && (fieldState.isTouched || isSubmitted)}
               />
@@ -142,13 +148,16 @@ const AddClientScreen = () => {
       </Block>
       <BottomSheet
         ref={sheetRef}
-        title="Add Options"
-        snapPoints={['40%', '70%']}
-        onClose={() => console.log('closed')}
+        headerTitle={t('birthday')}
+        showClose
+        snapPoints={[500, 700]}
       >
-        <Block zIndex={999} width={400} height={300} backgroundColor={'red'}>
-
-        </Block>
+        <Calendar
+          enableSwipeMonths
+          onDayPress={onDayPress}
+          markedDates={marked}
+          maxDate={moment().format('YYYY-MM-DD')}
+        />
       </BottomSheet>
     </ScreenWrapper>
   );

@@ -12,8 +12,8 @@ import Loading from './src/components/Loading';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { LoadingProvider } from './src/components/LoadingContext';
 import NavigationService, { navigationRef } from 'service/navigation-service';
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Host } from 'react-native-portalize';
 
 export default function App() {
   return (
@@ -24,7 +24,7 @@ export default function App() {
             <I18nextProvider i18n={i18n}>
               <AlertProvider>
                 <GestureHandlerRootView style={{ flex: 1 }}>
-                  <BottomSheetModalProvider>
+                  <Host>
                     <NavigationContainer
                       onReady={NavigationService.onReady}
                       onStateChange={NavigationService.onStateChange}
@@ -32,7 +32,7 @@ export default function App() {
                     >
                       <AppNavigator />
                     </NavigationContainer>
-                  </BottomSheetModalProvider>
+                  </Host>
                 </GestureHandlerRootView>
               </AlertProvider>
             </I18nextProvider>
