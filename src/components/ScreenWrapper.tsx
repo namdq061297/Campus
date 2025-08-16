@@ -8,7 +8,11 @@ import {
   View,
   StatusBar,
   StatusBarStyle,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
+import { useHeaderHeight } from '@react-navigation/elements';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import COLORS from 'theme/colors';
 
 type ScreenWrapperProps = {
@@ -16,7 +20,12 @@ type ScreenWrapperProps = {
   scroll?: boolean;
   backgroundColor?: string;
   contentContainerStyle?: any;
-  statusBar?: StatusBarStyle; // 👈 khai báo kiểu đúng ở đây
+  statusBar?: StatusBarStyle;
+  dismissOnTouchOutside?: boolean;
+  /** Cho phép override offset nếu cần tinh chỉnh thêm */
+  keyboardVerticalOffset?: number;
+  /** Nếu false, bỏ cộng headerHeight (ví dụ màn không có header) */
+  useHeaderOffset?: boolean;
 };
 
 const ScreenWrapper = ({
@@ -25,40 +34,64 @@ const ScreenWrapper = ({
   backgroundColor = COLORS.white,
   contentContainerStyle = {},
   statusBar = 'default',
+  dismissOnTouchOutside = true,
+  keyboardVerticalOffset,
+  useHeaderOffset = true,
   ...rest
 }: ScreenWrapperProps) => {
-  const Container = scroll ? ScrollView : View;
+  const Container: any = scroll ? ScrollView : View;
+
+  const headerHeight = useHeaderOffset ? useHeaderHeight() : 0;
+  const insets = useSafeAreaInsets();
+
+  // Tính offset chuẩn cho iOS; Android thường dựa vào adjustResize
+  const computedOffset =
+    Platform.OS === 'ios'
+      ? (keyboardVerticalOffset ?? headerHeight) + (insets?.top ?? 0)
+      : keyboardVerticalOffset ?? 0;
+
+  const body = (
+    <Container
+      style={[styles.flex, { backgroundColor }]}
+      {...(scroll
+        ? {
+          keyboardShouldPersistTaps: 'handled',
+          keyboardDismissMode: Platform.OS === 'ios' ? 'on-drag' : 'none',
+          contentContainerStyle: [styles.container, contentContainerStyle],
+        }
+        : {})}
+      {...rest}
+    >
+      {children}
+    </Container>
+  );
+
+  const content = dismissOnTouchOutside ? (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <View style={styles.flex}>{body}</View>
+    </TouchableWithoutFeedback>
+  ) : (
+    body
+  );
 
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor }]}>
       <StatusBar barStyle={statusBar} />
       <KeyboardAvoidingView
         style={styles.flex}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={computedOffset}
       >
-        <Container
-          style={[styles.flex, { backgroundColor }]}
-          contentContainerStyle={scroll && [styles.container, contentContainerStyle]}
-          {...rest}
-        >
-          {children}
-        </Container>
+        {content}
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-  safeArea: {
-    flex: 1,
-  },
-  container: {
-    flexGrow: 1,
-  },
+  flex: { flex: 1 },
+  safeArea: { flex: 1 },
+  container: { flexGrow: 1 },
 });
 
 export default React.memo(ScreenWrapper);

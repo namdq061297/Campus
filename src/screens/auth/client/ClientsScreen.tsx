@@ -23,6 +23,7 @@ const ClientsScreen = () => {
   return (
     <ScreenWrapper>
       <Block padding={16}></Block>
+      {/* <FloatButtonAdd onPress={() => navigate(SCREEN_NAME.ADD_CLIENT)} /> */}
       <FloatButtonAdd onPress={() => navigate(SCREEN_NAME.ADD_CLIENT)} />
     </ScreenWrapper>
   );

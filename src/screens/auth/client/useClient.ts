@@ -18,6 +18,7 @@ const defaultValues: AddClientFormValues = {
   phone: '',
   address: '',
   note: '',
+  birthday: '',
 };
 
 const useClient = () => {

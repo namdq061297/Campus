@@ -23,6 +23,7 @@ import IMAGES from 'assets/images';
 import { useTranslation } from 'react-i18next';
 import ClientsScreen from 'screens/auth/client/ClientsScreen';
 import AddClientScreen from 'screens/auth/client/AddClientScreen';
+import CalendarScreen from 'screens/calendarScreen';
 
 // 👇 GẮN GENERICS
 const Stack = createNativeStackNavigator<RootStackParamList & DrawerParamList>();
@@ -59,6 +60,11 @@ function ClientStack() {
       <Stack.Screen
         name={SCREEN_NAME.ADD_CLIENT}
         component={AddClientScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name={'calendar'}
+        component={CalendarScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

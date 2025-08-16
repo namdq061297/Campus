@@ -12,6 +12,8 @@ import Loading from './src/components/Loading';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { LoadingProvider } from './src/components/LoadingContext';
 import NavigationService, { navigationRef } from 'service/navigation-service';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function App() {
   return (
@@ -21,10 +23,17 @@ export default function App() {
           <PersistGate loading={<Loading />} persistor={persistor}>
             <I18nextProvider i18n={i18n}>
               <AlertProvider>
-                <NavigationContainer onReady={NavigationService.onReady}
-                  onStateChange={NavigationService.onStateChange} ref={navigationRef}>
-                  <AppNavigator />
-                </NavigationContainer>
+                <GestureHandlerRootView style={{ flex: 1 }}>
+                  <BottomSheetModalProvider>
+                    <NavigationContainer
+                      onReady={NavigationService.onReady}
+                      onStateChange={NavigationService.onStateChange}
+                      ref={navigationRef}
+                    >
+                      <AppNavigator />
+                    </NavigationContainer>
+                  </BottomSheetModalProvider>
+                </GestureHandlerRootView>
               </AlertProvider>
             </I18nextProvider>
           </PersistGate>

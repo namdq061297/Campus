@@ -1,26 +1,22 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import Block from 'components/Block';
 import ScreenWrapper from 'components/ScreenWrapper';
 import AppButton from 'components/AppButton';
 import { useLoading } from 'components/LoadingContext';
 import { useAlert } from 'components/AlertContext';
-import IMAGES from 'assets/images';
-import { TouchableOpacity } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import COLORS from 'theme/colors';
-import FloatButtonAdd from 'components/FloatButtonAdd';
 import AppHeader from 'components/AppHeader';
 import AppText from 'components/AppText';
 import TypographyStyles from 'theme/TypographyStyles';
 import { Controller } from 'react-hook-form';
 import useClient from './useClient';
 import FormInput from 'components/FormInput';
+import BottomSheet, { BottomSheetHandle } from 'components/BottomSheet';
 
 const AddClientScreen = () => {
   const { t } = useTranslation();
   const { showLoading, hideLoading } = useLoading();
+  const sheetRef = useRef<BottomSheetHandle>(null);
 
   const { showAlert } = useAlert();
   const {
@@ -31,8 +27,13 @@ const AddClientScreen = () => {
     hasErrors,
   } = useClient();
 
+  const openSheet = useCallback(() => {
+    sheetRef.current?.open()
+    console.warn('sheetRef =', sheetRef.current);
+  }, [])
+
   return (
-    <ScreenWrapper>
+    <ScreenWrapper scroll>
       <AppHeader title={t('add_client')} />
       <Block padding={16}>
         <AppText style={TypographyStyles.titleMedium}>{t('general_information')}</AppText>
@@ -86,6 +87,24 @@ const AddClientScreen = () => {
           <Block height={16} />
           <Controller
             control={control}
+            name="birthday"
+            // rules={{  }}
+            render={({ field: { onChange, value }, fieldState }) => (
+              <FormInput
+                label={t('birthday')}
+                value={value}
+                maxLength={100}
+                editable={false}
+                onChangeText={onChange}
+                onPressIn={() => sheetRef.current?.open()}
+                onPressOut={() => sheetRef.current?.open()}
+                errorMessage={fieldState.error?.message}
+                showError={fieldState.invalid && (fieldState.isTouched || isSubmitted)}
+              />
+            )}
+          />
+          <Controller
+            control={control}
             name="address"
             // rules={{  }}
             render={({ field: { onChange, value }, fieldState }) => (
@@ -119,8 +138,18 @@ const AddClientScreen = () => {
         <Block height={72} />
         <AppButton disabled={hasErrors} title={t('btn_save')} onPress={handleSubmit(onSubmit)} />
         <Block height={24} />
-        <AppButton disabled={hasErrors} variant="secondary" title={t('btn_save_and_add_new')} onPress={handleSubmit(onSubmit)} />
+        <AppButton variant="secondary" title={t('btn_save_and_add_new')} onPress={openSheet} />
       </Block>
+      <BottomSheet
+        ref={sheetRef}
+        title="Add Options"
+        snapPoints={['40%', '70%']}
+        onClose={() => console.log('closed')}
+      >
+        <Block zIndex={999} width={400} height={300} backgroundColor={'red'}>
+
+        </Block>
+      </BottomSheet>
     </ScreenWrapper>
   );
 };
