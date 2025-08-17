@@ -21,7 +21,7 @@ const ClientsScreen = () => {
   const { showAlert } = useAlert();
 
   return (
-    <ScreenWrapper>
+    <ScreenWrapper showHeader={false}>
       <Block padding={16}></Block>
       {/* <FloatButtonAdd onPress={() => navigate(SCREEN_NAME.ADD_CLIENT)} /> */}
       <FloatButtonAdd onPress={() => navigate(SCREEN_NAME.ADD_CLIENT)} />

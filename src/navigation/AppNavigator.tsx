@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectIsLoggedIn, setSessionFromStorage } from '../store/userSlice';
 import { AppDispatch } from '../store';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import HomeScreen from 'screens/auth/home/HomeScreen';
 import LoginScreen from 'screens/un-auth/login/LoginScreen';
@@ -23,7 +24,7 @@ import IMAGES from 'assets/images';
 import { useTranslation } from 'react-i18next';
 import ClientsScreen from 'screens/auth/client/ClientsScreen';
 import AddClientScreen from 'screens/auth/client/AddClientScreen';
-import CalendarScreen from 'screens/calendarScreen';
+import ServiceScreen from 'screens/auth/service/ServiceScreen';
 
 // 👇 GẮN GENERICS
 const Stack = createNativeStackNavigator<RootStackParamList & DrawerParamList>();
@@ -62,9 +63,21 @@ function ClientStack() {
         component={AddClientScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name={'calendar'}
         component={CalendarScreen}
+        options={{ headerShown: false }}
+      /> */}
+    </Stack.Navigator>
+  );
+}
+
+function ServiceStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen
+        name={SCREEN_NAME.SERVICE}
+        component={ServiceScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
@@ -121,6 +134,25 @@ function AppDrawer() {
             headerRightContainerStyle: styles.headerSide,
             drawerIcon: ({ color, size }) => (
               <Ionicons name="people-outline" size={size} color={color} />
+            ),
+          };
+        }}
+      />
+      <Drawer.Screen
+        name={SCREEN_NAME.SERVICE}
+        component={ServiceStack}
+        options={({ navigation, route }) => {
+          const focused =
+            getFocusedRouteNameFromRoute(route) ?? SCREEN_NAME.SERVICE;
+          const showDrawerHeader = focused === SCREEN_NAME.SERVICE;
+
+          return {
+            title: t('service_cate'),
+            headerShown: showDrawerHeader,        // ✅ chỉ hiện ở Clients
+            headerStyle: { height: 120 },
+            headerRightContainerStyle: styles.headerSide,
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name="duplicate-outline" size={size} color={color} />
             ),
           };
         }}

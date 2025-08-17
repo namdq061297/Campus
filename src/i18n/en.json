@@ -24,4 +24,10 @@
   "placeholder_note": "Enter note",
   "clients": "Clients",
   "search_clients": "Search client",
+  "new_service": "New Service",
+  "new_cate": "New Catgegory",
+  "service_cate": "Service & Category",
+  "cate_name": "Category name",
+  "save": "Save",
+  "cancel": "Cancel"
 }

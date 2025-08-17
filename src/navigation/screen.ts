@@ -7,4 +7,5 @@ export const SCREEN_NAME = {
   SETTINGS: 'Settings',
   ADD_CLIENT: 'AddClient',
   CLIENTS: 'Clients',
+  SERVICE: 'Service',
 } as const;

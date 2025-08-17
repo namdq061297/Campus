@@ -14,6 +14,8 @@ import {
 import { useHeaderHeight } from '@react-navigation/elements';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import COLORS from 'theme/colors';
+import AppHeader, { HeaderProps } from './AppHeader';
+import { useTranslation } from 'react-i18next';
 
 type ScreenWrapperProps = {
   children: React.ReactNode;
@@ -26,7 +28,8 @@ type ScreenWrapperProps = {
   keyboardVerticalOffset?: number;
   /** Nếu false, bỏ cộng headerHeight (ví dụ màn không có header) */
   useHeaderOffset?: boolean;
-};
+  showHeader?: boolean;
+} & HeaderProps;
 
 const ScreenWrapper = ({
   children,
@@ -37,12 +40,15 @@ const ScreenWrapper = ({
   dismissOnTouchOutside = true,
   keyboardVerticalOffset,
   useHeaderOffset = true,
+  showHeader = true,
+  title = '',
   ...rest
 }: ScreenWrapperProps) => {
   const Container: any = scroll ? ScrollView : View;
 
   const headerHeight = useHeaderOffset ? useHeaderHeight() : 0;
   const insets = useSafeAreaInsets();
+  const { t } = useTranslation();
 
   // Tính offset chuẩn cho iOS; Android thường dựa vào adjustResize
   const computedOffset =
@@ -77,6 +83,7 @@ const ScreenWrapper = ({
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor }]}>
       <StatusBar barStyle={statusBar} />
+      {showHeader && <AppHeader title={title} />}
       <KeyboardAvoidingView
         style={styles.flex}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
