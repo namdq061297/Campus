@@ -44,6 +44,8 @@ const useAddService = () => {
   const [loading, setLoading] = useState(false);
   const [popular, setPopular] = useState(false);
   const [showTooltipPopular, setShowTooltipPopular] = useState(false);
+  const [showTooltipService, setShowTooltipService] = useState(false);
+  const [cateSelected, setCateSelected] = useState();
 
   const onSubmit = (data: any) => {
     console.warn('Form data:', data);
@@ -56,6 +58,25 @@ const useAddService = () => {
   const updateTooltipPopular = useCallback(() => {
     setShowTooltipPopular((e) => !e)
   }, [])
+
+  const updateTooltipService = useCallback(() => {
+    setShowTooltipService((e) => !e)
+  }, [])
+
+  const categories = [
+    {
+      id: '1',
+      title: 'okok'
+    },
+    {
+      id: '2',
+      title: 'nmnm'
+    },
+    {
+      id: '3',
+      title: 'qwer'
+    }
+  ]
 
   return {
     loading,
@@ -70,7 +91,12 @@ const useAddService = () => {
     updatePopular,
     popular,
     updateTooltipPopular,
-    showTooltipPopular
+    showTooltipPopular,
+    updateTooltipService,
+    showTooltipService,
+    setCateSelected,
+    cateSelected,
+    categories
   };
 };
 

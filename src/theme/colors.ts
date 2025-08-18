@@ -11,7 +11,9 @@ const COLORS = {
   silver: '#F3F5F8',
   yellow: '#FFC107',
   text_main: '#011638',
-  text_placeholder: '#99A2AF'
+  text_label: '#666666',
+  text_placeholder: '#99A2AF',
+  borderInput: '#E6E8EB'
 }
 
 export default COLORS
