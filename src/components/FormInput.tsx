@@ -34,6 +34,7 @@ const FormInput: React.FC<FormInputProps> = ({
 }) => {
   const [hidePassword, setHidePassword] = useState(secureTextEntry);
   const [inputHeight, setInputHeight] = useState(0);
+  const [rightCompWidth, setRightCompWidth] = useState(0);
 
   const renderRightIcon = () => {
     if (showPasswordToggle && secureTextEntry) {
@@ -49,7 +50,7 @@ const FormInput: React.FC<FormInputProps> = ({
         />
       );
     }
-    return undefined
+    return undefined;
   };
 
   return (
@@ -63,7 +64,7 @@ const FormInput: React.FC<FormInputProps> = ({
         activeOutlineColor={COLORS.green}
         secureTextEntry={hidePassword}
         outlineStyle={[{ borderRadius: 12 }, multiline && styles.multiline]}
-        style={{ backgroundColor: COLORS.white }}
+        style={{ backgroundColor: COLORS.white, paddingRight: rightCompWidth }}
         onLayout={e => setInputHeight(e.nativeEvent.layout.height)}
         left={
           leftIcon ? (
@@ -73,12 +74,17 @@ const FormInput: React.FC<FormInputProps> = ({
         right={renderRightIcon()}
         {...rest}
       />
-      {showError && errorMessage ? (
-        <HelperText type='error'>
-          {errorMessage}
-        </HelperText>
-      ) : null}
-      {rightComponent ? <Block position="absolute" top={inputHeight ? inputHeight / 2 - 2 : 0} right={16}>{rightComponent}</Block> : undefined}
+      {showError && errorMessage ? <HelperText type='error'>{errorMessage}</HelperText> : null}
+      {rightComponent ? (
+        <Block
+          onLayout={e => setRightCompWidth(e.nativeEvent.layout.width)}
+          position='absolute'
+          top={inputHeight ? inputHeight / 2 - 2 : 0}
+          right={16}
+        >
+          {rightComponent}
+        </Block>
+      ) : undefined}
     </View>
   );
 };
@@ -90,6 +96,6 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   multiline: {
-    height: 100
-  }
+    height: 100,
+  },
 });

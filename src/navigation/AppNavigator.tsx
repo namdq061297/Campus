@@ -25,6 +25,7 @@ import { useTranslation } from 'react-i18next';
 import ClientsScreen from 'screens/auth/client/ClientsScreen';
 import AddClientScreen from 'screens/auth/client/AddClientScreen';
 import ServiceScreen from 'screens/auth/service/ServiceScreen';
+import AddServiceScreen from 'screens/auth/service/AddServiceScreen';
 
 // 👇 GẮN GENERICS
 const Stack = createNativeStackNavigator<RootStackParamList & DrawerParamList>();
@@ -78,6 +79,11 @@ function ServiceStack() {
       <Stack.Screen
         name={SCREEN_NAME.SERVICE}
         component={ServiceScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name={SCREEN_NAME.ADD_SERVICE}
+        component={AddServiceScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

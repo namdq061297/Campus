@@ -8,4 +8,5 @@ export const SCREEN_NAME = {
   ADD_CLIENT: 'AddClient',
   CLIENTS: 'Clients',
   SERVICE: 'Service',
+  ADD_SERVICE: 'AddService',
 } as const;

@@ -6,9 +6,10 @@ const COLORS = {
   green_1: '#80AC87',
   green_2: '#B7CFBB',
   gray: '#4D5C74',
-  light_gray: '##E6E8EB',
+  light_gray: '#99A2AF',
   background: '#F3F5F8',
   silver: '#F3F5F8',
+  yellow: '#FFC107',
   text_main: '#011638',
   text_placeholder: '#99A2AF'
 }

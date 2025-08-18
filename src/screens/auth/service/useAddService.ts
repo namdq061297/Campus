@@ -1,8 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-// import { loginApi } from '../../../api/client';
-// import { login } from '../../../store/userSlice';
 import { useForm } from 'react-hook-form';
 import { useAlert } from 'components/AlertContext';
 import { login } from 'store/userSlice';
@@ -13,54 +10,52 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { DateData } from 'react-native-calendars';
 import COLORS from 'theme/colors';
 import { BottomSheetRef } from 'components/BottomSheetModalize';
-import { AddCategoryFormValues, addCategorySchema } from 'validattion/addCategory';
+import { AddServiceFormValues, addServiceSchema } from 'validattion/addService.schema';
 
-const defaultValues: AddCategoryFormValues = {
-  category: '',
+const defaultValues: AddServiceFormValues = {
+  serviceName: '',
+  hour: '',
+  minute: '',
+  price: '',
+  serviceColor: '',
+  mediaUrl: '',
+  staf: []
 };
 
-const useClient = () => {
+const useAddService = () => {
   const {
     control,
     handleSubmit,
     watch,
     formState: { errors, isSubmitted },
-  } = useForm<AddCategoryFormValues>({
-    resolver: yupResolver(addCategorySchema),
+  } = useForm<AddServiceFormValues>({
+    resolver: yupResolver(addServiceSchema),
     defaultValues,
     mode: 'onTouched',
   });
   const dispatch = useDispatch();
   const { showAlert } = useAlert();
   const { showLoading, hideLoading } = useLoading();
-  const [selected, setSelected] = useState('');
   const sheetRef = useRef<BottomSheetRef>(null);
-  const categoryNameLength = watch('category')?.length;
+  const serviceNameLength = watch('serviceName')?.length;
 
   const hasErrors = Object.keys(errors).length > 0;
 
   const [loading, setLoading] = useState(false);
+  const [popular, setPopular] = useState(false);
+  const [showTooltipPopular, setShowTooltipPopular] = useState(false);
 
   const onSubmit = (data: any) => {
     console.warn('Form data:', data);
-  }
+  };
 
-  const openSheet = useCallback(() => {
-    sheetRef.current?.open()
+  const updatePopular = useCallback(() => {
+    setPopular((e) => !e)
   }, [])
 
-  const closeSheet = useCallback(() => {
-    sheetRef.current?.close()
+  const updateTooltipPopular = useCallback(() => {
+    setShowTooltipPopular((e) => !e)
   }, [])
-
-  const onPressFloatItem = useCallback((name: string) => {
-    if (name === 'new_cate') {
-      openSheet()
-    } else {
-      navigate(SCREEN_NAME.ADD_SERVICE)
-    }
-  }, [])
-
 
   return {
     loading,
@@ -71,11 +66,12 @@ const useClient = () => {
     isSubmitted,
     hasErrors,
     sheetRef,
-    openSheet,
-    onPressFloatItem,
-    closeSheet,
-    categoryNameLength
+    serviceNameLength,
+    updatePopular,
+    popular,
+    updateTooltipPopular,
+    showTooltipPopular
   };
 };
 
-export default useClient;
+export default useAddService;

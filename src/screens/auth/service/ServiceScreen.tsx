@@ -89,8 +89,8 @@ const ClientsScreen = () => {
           )}
         />
         <Block marginTop={16} justifyContent="space-between" flexDirection="row">
-          <AppButton variant='secondary' style={{ width: '48%' }} fullWidth={false} disabled={hasErrors} title={t('cancel')} onPress={closeSheet} />
-          <AppButton style={{ width: '48%' }} fullWidth={false} title={t('save')} onPress={handleSubmit(onSubmit)} />
+          <AppButton variant='secondary' style={{ width: '48%' }} fullWidth={false} title={t('cancel')} onPress={closeSheet} />
+          <AppButton style={{ width: '48%' }} fullWidth={false} disabled={hasErrors} title={t('save')} onPress={handleSubmit(onSubmit)} />
         </Block>
       </BottomSheet>
     </ScreenWrapper>

@@ -1,22 +1,22 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import Block from 'components/Block';
 import ScreenWrapper from 'components/ScreenWrapper';
 import AppButton from 'components/AppButton';
 import { useLoading } from 'components/LoadingContext';
 import { useAlert } from 'components/AlertContext';
-import AppHeader from 'components/AppHeader';
 import AppText from 'components/AppText';
 import TypographyStyles from 'theme/TypographyStyles';
 import { Controller } from 'react-hook-form';
-import useClient from './useService';
 import FormInput from 'components/FormInput';
 import BottomSheet from 'components/BottomSheetModalize';
-import { Calendar } from 'react-native-calendars';
-import moment from 'moment';
-import useService from './useService';
+import useAddService from './useAddService';
+import COLORS from 'theme/colors';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { TouchableOpacity } from 'react-native';
+import Tooltip from 'react-native-walkthrough-tooltip';
 
-const AddClientScreen = () => {
+const AddServiceScreen = () => {
   const { t } = useTranslation();
   const { showLoading, hideLoading } = useLoading();
 
@@ -27,120 +27,66 @@ const AddClientScreen = () => {
     isSubmitted,
     onSubmit,
     hasErrors,
-    onDayPress,
-    marked,
-    sheetRef
-  } = useService();
+    sheetRef,
+    popular,
+    updatePopular,
+    serviceNameLength,
+    showTooltipPopular,
+    updateTooltipPopular
+  } = useAddService();
 
   const openSheet = useCallback(() => {
     sheetRef.current?.open()
   }, [])
 
   return (
-    <ScreenWrapper title={t('add_client')} scroll>
+    <ScreenWrapper title={t('add_service')} scroll>
       <Block padding={16}>
-        <AppText style={TypographyStyles.titleMedium}>{t('general_information')}</AppText>
+        <AppText style={TypographyStyles.titleMedium}>{t('service_detail')}</AppText>
         <Block marginTop={16}>
           <Controller
             control={control}
-            name="fullname"
-            rules={{ required: 'Fullname is required' }}
+            name="serviceName"
             render={({ field: { onChange, value }, fieldState }) => (
               <FormInput
-                label={t('full_name')}
-                maxLength={50}
+                label={t('service_name')}
+                maxLength={30}
                 value={value}
+                numberOfLines={1}
                 onChangeText={onChange}
                 errorMessage={fieldState.error?.message}
                 showError={fieldState.invalid && (fieldState.isTouched || isSubmitted)}
+                rightComponent={(
+                  <AppText color={COLORS.text_placeholder}>{serviceNameLength?.toString() + '/30'}</AppText>
+                )}
               />
             )}
           />
-          <Controller
-            control={control}
-            name="email"
-            // rules={{  }}
-            render={({ field: { onChange, value }, fieldState }) => (
-              <FormInput
-                label={t('email_optional')}
-                value={value}
-                onChangeText={onChange}
-                errorMessage={fieldState.error?.message}
-                showError={fieldState.invalid && (fieldState.isTouched || isSubmitted)}
-              />
-            )}
-          />
-          <Controller
-            control={control}
-            name="phone"
-            // rules={{  }}
-            render={({ field: { onChange, value }, fieldState }) => (
-              <FormInput
-                label={t('phone_number')}
-                value={value}
-                maxLength={12}
-                keyboardType="phone-pad"
-                onChangeText={onChange}
-                errorMessage={fieldState.error?.message}
-                showError={fieldState.invalid && (fieldState.isTouched || isSubmitted)}
-              />
-            )}
-          />
-          <AppText style={TypographyStyles.titleMedium}>{t('about_client_optional')}</AppText>
+          <Block flexDirection="row">
+            <TouchableOpacity onPress={updatePopular}>
+              <Block alignItems="center" flexDirection="row">
+                <Ionicons color={popular ? COLORS.yellow : COLORS.black} size={18} name={popular ? 'star' : 'star-outline'} />
+                <Block width={4} />
+                <AppText>{t('popular_service')}</AppText>
+                <Block width={4} />
+              </Block>
+            </TouchableOpacity>
+            <Tooltip
+              isVisible={showTooltipPopular}
+              content={<AppText>{t('popular_tooltip')}</AppText>}
+              placement="bottom"
+              onClose={updateTooltipPopular}
+            >
+              <TouchableOpacity onPress={updateTooltipPopular}>
+                <Ionicons color={COLORS.light_gray} size={20} name={'help-circle-outline'} />
+              </TouchableOpacity>
+            </Tooltip>
+          </Block>
           <Block height={16} />
-          <Controller
-            control={control}
-            name="birthday"
-            // rules={{  }}
-            render={({ field: { onChange, value }, fieldState }) => (
-              <FormInput
-                label={t('birthday')}
-                value={value}
-                maxLength={100}
-                editable={false}
-                onChangeText={onChange}
-                onPressIn={openSheet}
-                errorMessage={fieldState.error?.message}
-                showError={fieldState.invalid && (fieldState.isTouched || isSubmitted)}
-              />
-            )}
-          />
-          <Controller
-            control={control}
-            name="address"
-            // rules={{  }}
-            render={({ field: { onChange, value }, fieldState }) => (
-              <FormInput
-                label={t('address')}
-                value={value}
-                maxLength={100}
-                onChangeText={onChange}
-                errorMessage={fieldState.error?.message}
-                showError={fieldState.invalid && (fieldState.isTouched || isSubmitted)}
-              />
-            )}
-          />
-          <Controller
-            control={control}
-            name="note"
-            // rules={{  }}
-            render={({ field: { onChange, value }, fieldState }) => (
-              <FormInput
-                label={t('note')}
-                maxLength={100}
-                multiline
-                value={value}
-                onChangeText={onChange}
-                errorMessage={fieldState.error?.message}
-                showError={fieldState.invalid && (fieldState.isTouched || isSubmitted)}
-              />
-            )}
-          />
+          <AppButton disabled={hasErrors} title={t('btn_save')} onPress={handleSubmit(onSubmit)} />
+          <Block height={16} />
+          <AppButton variant="secondary" title={t('btn_save_and_add_new')} onPress={openSheet} />
         </Block>
-        <Block height={72} />
-        <AppButton disabled={hasErrors} title={t('btn_save')} onPress={handleSubmit(onSubmit)} />
-        <Block height={24} />
-        <AppButton variant="secondary" title={t('btn_save_and_add_new')} onPress={openSheet} />
       </Block>
       <BottomSheet
         ref={sheetRef}
@@ -148,14 +94,9 @@ const AddClientScreen = () => {
         showClose
         snapPoints={[500, 700]}
       >
-        <Calendar
-          enableSwipeMonths
-          onDayPress={onDayPress}
-          markedDates={marked}
-          maxDate={moment().format('YYYY-MM-DD')}
-        />
+        <></>
       </BottomSheet>
     </ScreenWrapper>
   );
 };
-export default React.memo(AddClientScreen);
+export default React.memo(AddServiceScreen);
