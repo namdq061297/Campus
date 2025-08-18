@@ -1731,6 +1731,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/eslint-plugin/-/eslint-plugin-1.3.0.tgz#9e558170c106bbafaa1ef502bd8e6d4651012bf9"
   integrity sha512-+zDZ20NUnSWghj7Ku5aFphMzuM9JulqCW+aPXT6IfIXFbb8tzYTTOSeRFOtuekJ99ibW2fUCSsjuKNlwDIbHFg==
 
+"@react-native-community/image-editor@^4.3.0":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@react-native-community/image-editor/-/image-editor-4.3.0.tgz#b3a19f325ba28e94adf99e0f0594c6c5af2f9e35"
+  integrity sha512-JMHE+6D1hHhLwboEcbxdqk47FQ9nDrSGTlHrxDgmwUnE6wA1bQh0Ver7EyDcKxfxLqBNnHUx54mbtWVuP182vA==
+
 "@react-native/assets-registry@0.80.2":
   version "0.80.2"
   resolved "https://registry.npmjs.org/@react-native/assets-registry/-/assets-registry-0.80.2.tgz"
