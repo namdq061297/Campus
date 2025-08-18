@@ -13,4 +13,5 @@ export type DrawerParamList = {
   AddClient: undefined;
   Clients: undefined;
   Settings: undefined;
+  Service: undefined;
 };

@@ -11,8 +11,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import COLORS from 'theme/colors';
 
-type Props = {
-  title: string;
+export type HeaderProps = {
+  title?: string;
   showBack?: boolean;
   onBackPress?: () => void;
   rightIcon?: string;
@@ -21,8 +21,8 @@ type Props = {
   titleStyle?: TextStyle;
 };
 
-const AppHeader: React.FC<Props> = ({
-  title,
+const AppHeader: React.FC<HeaderProps> = ({
+  title = '',
   showBack = true,
   onBackPress,
   rightIcon,

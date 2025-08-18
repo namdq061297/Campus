@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { View, StyleSheet, ViewStyle } from 'react-native';
 import { TextInput, HelperText } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import type { TextInputProps } from 'react-native-paper';
 import COLORS from 'theme/colors';
+import Block from './Block';
 
 interface FormInputProps extends Omit<TextInputProps, 'label'> {
   label: string;
   errorMessage?: string;
   showError?: boolean;
   multiline?: boolean;
+  rightComponent?: ReactNode;
   containerStyle?: ViewStyle;
   leftIcon?: string; // Tên icon Ionicons ở bên trái
   showPasswordToggle?: boolean; // Tự động toggle khi là password field
@@ -27,9 +29,11 @@ const FormInput: React.FC<FormInputProps> = ({
   secureTextEntry = false,
   containerStyle,
   multiline = false,
+  rightComponent,
   ...rest
 }) => {
   const [hidePassword, setHidePassword] = useState(secureTextEntry);
+  const [inputHeight, setInputHeight] = useState(0);
 
   const renderRightIcon = () => {
     if (showPasswordToggle && secureTextEntry) {
@@ -45,7 +49,7 @@ const FormInput: React.FC<FormInputProps> = ({
         />
       );
     }
-    return undefined;
+    return undefined
   };
 
   return (
@@ -60,6 +64,7 @@ const FormInput: React.FC<FormInputProps> = ({
         secureTextEntry={hidePassword}
         outlineStyle={[{ borderRadius: 12 }, multiline && styles.multiline]}
         style={{ backgroundColor: COLORS.white }}
+        onLayout={e => setInputHeight(e.nativeEvent.layout.height)}
         left={
           leftIcon ? (
             <TextInput.Icon icon={() => <Ionicons name={leftIcon} size={20} />} />
@@ -73,6 +78,7 @@ const FormInput: React.FC<FormInputProps> = ({
           {errorMessage}
         </HelperText>
       ) : null}
+      {rightComponent ? <Block position="absolute" top={inputHeight ? inputHeight / 2 - 2 : 0} right={16}>{rightComponent}</Block> : undefined}
     </View>
   );
 };

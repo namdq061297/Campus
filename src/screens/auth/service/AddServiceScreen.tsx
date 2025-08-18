@@ -9,11 +9,12 @@ import AppHeader from 'components/AppHeader';
 import AppText from 'components/AppText';
 import TypographyStyles from 'theme/TypographyStyles';
 import { Controller } from 'react-hook-form';
-import useClient from './useClient';
+import useClient from './useService';
 import FormInput from 'components/FormInput';
 import BottomSheet from 'components/BottomSheetModalize';
 import { Calendar } from 'react-native-calendars';
 import moment from 'moment';
+import useService from './useService';
 
 const AddClientScreen = () => {
   const { t } = useTranslation();
@@ -29,7 +30,7 @@ const AddClientScreen = () => {
     onDayPress,
     marked,
     sheetRef
-  } = useClient();
+  } = useService();
 
   const openSheet = useCallback(() => {
     sheetRef.current?.open()
